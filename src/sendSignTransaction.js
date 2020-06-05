@@ -21,7 +21,7 @@ const getSignedTx = async (rawTrans, from) => {
         await web3.eth.getTransactionCount(from, "pending")
       ),
     },
-    privateKeys[0]
+    privateKeys[2]
   );
   return signed.rawTransaction;
 };
