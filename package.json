@@ -17,6 +17,6 @@
     "express": "^4.17.1",
     "react-bootstrap": "^1.0.1",
     "truffle-flattener": "^1.4.3",
-    "web3": "^1.2.6"
+    "web3": "^1.2.8"
   }
 }

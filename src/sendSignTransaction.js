@@ -26,6 +26,35 @@ const getSignedTx = async (rawTrans, from) => {
   return signed.rawTransaction;
 };
 
+
+const getSignedTxerc = async (rawTrans, from) => {
+  assert(
+    rawTrans && from,
+    "Need to specify each param of sendSignTransaction-func"
+  );
+  assert(web3.utils.isAddress(from), "Sender's address is not valid");
+
+  const signed = await web3.eth.accounts.signTransaction(
+    {
+      to: aclAddress,
+      from: from,
+      value: "0",
+      data: rawTrans.encodeABI(),
+      gasPrice: web3.eth.getGasPrice(), //web3.utils.toWei("20", "gwei"),
+      gas: Math.round((await rawTrans.estimateGas({ from })) * 1.5),
+      nonce: web3.utils.toHex(
+        await web3.eth.getTransactionCount(from, "pending")
+      ),
+    },
+    privateKeys[1]
+  );
+  return signed.rawTransaction;
+};
+
+
+
+
+
 const sendSignedTx = async (rawTxHex, from, addr_user, write,read,exec,res) => {
   try {
     const resp = await axios.post(`http://${host}:${port}/transfer`, {
@@ -65,5 +94,6 @@ const directSendSignedTx = async (rawTxHex) => {
 module.exports = {
   getSignedTx: getSignedTx,
   //sendSignedTx: sendSignedTx,
+  getSignedTxerc: getSignedTxerc,
   directSendSignedTx: directSendSignedTx,
 };
